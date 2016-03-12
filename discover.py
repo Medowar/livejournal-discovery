@@ -32,8 +32,6 @@ def main():
 def check_200(url):
     tries = 0
     while tries <= 5:
-        print(tries)
-        sys.stdout.flush()
         response = requests.get(url)
         status_code = response.status_code
         if response.status_code not in (200, 404, 410):
