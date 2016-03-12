@@ -24,7 +24,7 @@ def main():
             status_code = str(check_200('http://www.livejournal.com/profile?userid='+str(profileid)))
             print('Received status code ' + status_code + ' for profile ' + str(profileid) + '.')
             sys.stdout.flush()
-            profiles.append(status_code)
+            profiles.append(str(profileid) + ',' + status_code)
 
         with open(output_filename, 'w') as file:
             file.write('\n'.join(profiles))
