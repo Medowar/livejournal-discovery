@@ -34,7 +34,9 @@ def check_200(url):
     while tries <= 5:
         response = requests.get(url)
         status_code = response.status_code
-        if response.status_code not in (200, 404, 410):
+        if response.status_code == 403:
+            raise Exception('You\'re banned from LiveJournal. ABORTING.')
+        elif response.status_code not in (200, 404, 410):
             tries += 1
         else:
             return status_code
