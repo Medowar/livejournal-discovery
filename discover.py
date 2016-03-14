@@ -1,11 +1,6 @@
-import gzip
-import re
 import requests
-import string
 import sys
 import time
-import random
-import os
 
 class FetchError(Exception):
     '''Custom error class when fetching does not meet our expectation.'''
@@ -34,9 +29,10 @@ def check_200(url):
     while tries <= 5:
         response = requests.get(url)
         status_code = response.status_code
-        if response.status_code == 403:
+        time.sleep(0.5)
+        if response.status_code == 403 and not '<title>Suspended Journal</title>' in response.text:
             raise Exception('You\'re banned from LiveJournal. ABORTING.')
-        elif response.status_code not in (200, 404, 410):
+        elif response.status_code not in (200, 404, 410, 403):
             tries += 1
         else:
             return status_code
