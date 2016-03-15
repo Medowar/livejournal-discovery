@@ -26,17 +26,27 @@ def main():
 
 def check_200(url):
     tries = 0
-    while tries <= 5:
-        response = requests.get(url)
+    status_code = 0
+    MAX_TRIES = 10
+    while tries <= MAX_TRIES:
+        try:
+            response = requests.get(url, timeout=10)
+        except requests.exceptions.RequestException:
+            print('Connection error. Sleeping for 10 seconds...')
+            tries += 1
+            time.sleep(10)
+            continue
         status_code = response.status_code
-        time.sleep(0.5)
         if response.status_code == 403 and not '<title>Suspended Journal</title>' in response.text:
             raise Exception('You\'re banned from LiveJournal. ABORTING.')
         elif response.status_code not in (200, 404, 410, 403):
             tries += 1
         else:
             return status_code
-    return status_code
+    if tries <= MAX_TRIES:
+        return status_code
+    else:
+        raise Exception('Subsequent failed attempts. ABORTING.')
 
 if __name__ == '__main__':
     main()
