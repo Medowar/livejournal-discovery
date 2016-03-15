@@ -16,6 +16,7 @@ def main():
     if item_type == "profiles":
         profiles = []
         for profileid in range(int(start_num), int(end_num) + 1):
+            time.sleep(0.5)
             status_code = str(check_200('http://www.livejournal.com/profile?userid='+str(profileid)))
             print('Received status code ' + status_code + ' for profile ' + str(profileid) + '.')
             sys.stdout.flush()
