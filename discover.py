@@ -39,7 +39,9 @@ def check_200(url):
             continue
         status_code = response.status_code
         if response.status_code == 403 and not '<title>Suspended Journal</title>' in response.text:
-            raise Exception('You\'re banned from LiveJournal. ABORTING.')
+            print('You\'re banned from LiveJournal. Sleeping for 1 hour, then ABORTING.')
+            time.sleep(3600)
+            raise Exception('Banned from LiveJournal. ABORTING.')
         elif response.status_code not in (200, 404, 410, 403):
             tries += 1
         else:
